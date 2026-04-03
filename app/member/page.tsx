@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 const MemberPage = () => {
     const [data, setData] = useState<any>(null)
     const [loading, setLoading] = useState(false)
+    const [error, setError] = useState<string | null>(null)
 
     const api = "https://staging-backend.thebobproject.co/api/public/v2/event/list?page=1&per_page=100&who_can_register=public_users_bob_members&sort=newest"
 
@@ -19,6 +20,7 @@ const MemberPage = () => {
             const res = await axios.get(api)
             setData(res.data.data)
         } catch (error) {
+            setError("Failed to fetch data")
             toast.error("something went wrong")
         } finally {
             setLoading(false)
@@ -37,8 +39,15 @@ const MemberPage = () => {
         )
     }
 
+    if (error) {
+        return (
+            <div className='flex justify-center h-56 items-center'>
+                <span className='ml-2 text-red-500'>Failed to fetch data</span>
+            </div>
+        )
+    }
 
-    console.log(data)
+
 
     return (
         <div className=' container mx-auto'>

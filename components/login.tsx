@@ -2,6 +2,7 @@
 "use client";
 
 import axios from 'axios';
+import error from 'next/dist/api/error';
 import { useRouter } from 'next/navigation';
 import React, { use, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast';
@@ -36,7 +37,6 @@ const Login = () => {
 
             const res: Response = await axios.post(api, payload)
 
-            console.log(res)
             if (res.data.role == "member") {
                 localStorage.setItem('token', res.data.token);
                 router.push('/member')
@@ -49,6 +49,7 @@ const Login = () => {
 
         } catch (error) {
             setLoading(false)
+            toast.error("something went wrong")
         }
     }
 
